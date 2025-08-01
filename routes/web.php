@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use Livewire\Livewire;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,12 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+});
+
+Livewire::setScriptRoute(function ($handle) {
+    return Route::get(env('APP_URL') . '/livewire/livewire.js', $handle);
+});
+
+Livewire::setUpdateRoute(function ($handle) {
+    return Route::post(env('PUBLIC_PATH') . '/livewire/update', $handle);
 });
