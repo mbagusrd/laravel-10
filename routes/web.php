@@ -31,10 +31,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
-Livewire::setScriptRoute(function ($handle) {
-    return Route::get(env('APP_URL') . '/livewire/livewire.js', $handle);
+$path = parse_url(config('app.url'), PHP_URL_PATH) ?? '';
+
+Livewire::setScriptRoute(function ($handle) use ($path) {
+    return Route::get($path . '/livewire/livewire.js', $handle);
 });
 
-Livewire::setUpdateRoute(function ($handle) {
-    return Route::post(env('PUBLIC_PATH') . '/livewire/update', $handle);
+Livewire::setUpdateRoute(function ($handle) use ($path) {
+    return Route::post($path . '/livewire/update', $handle);
 });
